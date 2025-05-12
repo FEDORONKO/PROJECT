@@ -1,0 +1,13 @@
+{% extends 'news/base.html' %}
+
+{% block content %}
+<h2>Ласкаво просимо на сайт наукових новин</h2>
+<p>Тут ви можете переглядати наукові статті, коментувати їх, а також публікувати власні.</p>
+
+{% if user.is_authenticated %}
+  <p><a href="{% url 'science_news:create_article' %}">Створити нову статтю</a></p>
+  <p><a href="{% url 'science_news:category_list' %}">Переглянути категорії</a></p>
+{% else %}
+  <p><a href="{% url 'science_news:login' %}">Увійдіть</a>, щоб взаємодіяти зі статтями.</p>
+{% endif %}
+{% endblock %}

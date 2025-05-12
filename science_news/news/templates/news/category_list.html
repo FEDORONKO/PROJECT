@@ -1,0 +1,16 @@
+{% extends 'news/base.html' %}
+
+{% block content %}
+<h2>Категорії статей</h2>
+
+{% if categories %}
+<ul>
+    {% for category in categories %}
+        <li><a href="{% url 'news:article_list' category.id %}">{{ category.name }}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>Категорії наразі відсутні.</p>
+{% endif %}
+
+{% endblock %}

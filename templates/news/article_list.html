@@ -1,0 +1,19 @@
+{% extends 'news/base.html' %}
+
+{% block content %}
+<h2>Новини у категорії: {{ category.name }}</h2>
+
+{% if articles %}
+<ul>
+    {% for article in articles %}
+        <li>
+            <a href="{% url 'news:article_detail' article.id %}">{{ article.title }}</a>
+            <small>({{ article.created_at|date:"Y-m-d" }})</small>
+        </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>У цій категорії поки немає новин.</p>
+{% endif %}
+
+{% endblock %}

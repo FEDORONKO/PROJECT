@@ -1,0 +1,26 @@
+{% extends 'news/base.html' %}
+
+{% block content %}
+<h1>Ласкаво просимо на сайт наукових новин</h1>
+
+<h2>Категорії</h2>
+<ul>
+  {% for cat in categories %}
+    <li><a href="{% url 'science_news:article_list' cat.id %}">{{ cat.name }}</a></li>
+  {% empty %}
+    <li>Категорій поки нема.</li>
+  {% endfor %}
+</ul>
+
+<h2>Останні новини</h2>
+<ul>
+  {% for news in latest_news %}
+    <li>
+      <a href="{% url 'science_news:article_detail' news.id %}">{{ news.title }}</a>
+      <small>({{ news.created_at|date:"Y-m-d H:i" }})</small>
+    </li>
+  {% empty %}
+    <li>Новин поки нема.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'news/base.html' %}
+
+{% block content %}
+<h2>{{ article.title }}</h2>
+<p><strong>Автор:</strong> {{ article.author.username }}</p>
+<p>{{ article.content }}</p>
+
+{% if article.image %}
+    <img src="{{ article.image.url }}" width="300">
+{% endif %}
+
+{% if article.pdf_file %}
+    <p><a href="{{ article.pdf_file.url }}" target="_blank">Завантажити PDF</a></p>
+{% endif %}
+
+{% if user == article.author %}
+    <p>
+        <a href="{% url 'news:edit_article' article.id %}">Редагувати</a> |
+        <a href="{% url 'news:delete_article' article.id %}">Видалити</a>
+    </p>
+{% endif %}
+
+<hr>
+<h3>Коментарі</h3>
+<ul>
+    {% for comment in comments %}
+        <li>
+            <strong>{{ comment.author.username }}</strong>: {{ comment.content }}
+            {% if comment.author == user %}
+                - <a href="{% url 'news:delete_comment' comment.id %}">Видалити</a>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li>Коментарів поки що немає.</li>
+    {% endfor %}
+</ul>
+
+{% if user.is_authenticated %}
+    <h4>Додати коментар:</h4>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Надіслати</button>
+    </form>
+{% else %}
+    <p><a href="{% url 'news:login' %}">Увійдіть</a>, щоб залишити коментар.</p>
+{% endif %}
+
+<p><a href="{% url 'news:article_list' article.category.id %}">← Назад до списку</a></p>
+{% endblock %}
